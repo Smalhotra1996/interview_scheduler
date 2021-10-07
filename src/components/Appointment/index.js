@@ -15,10 +15,10 @@ export default function Appointment(props) {
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING";
-  const CONFIRM_DELETE  = "CONFIRM_DELETE";
+  const CONFIRM_DELETE = "CONFIRM_DELETE";
   const EDIT = "EDIT";
-  const ERROR_SAVE="ERROR_SAVE";
-  const ERROR_DELETE ="ERROR_DELETE";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
   const DELETING = "DELETING";
 
   const { mode, transition, back } = useVisualMode(
@@ -26,23 +26,23 @@ export default function Appointment(props) {
   );
 
   const save = (name, interviewer) => {
-    transition(SAVING,true);
+    transition(SAVING, true);
     const interview = {
       student: name,
       interviewer
     };
     props.bookInterview(props.id, interview)
       .then(() => transition(SHOW))
-      .catch(() => transition(ERROR_SAVE,true));
-      
+      .catch(() => transition(ERROR_SAVE, true));
+
   }
 
   const del = function () {
-    transition(DELETING,true);
+    transition(DELETING, true);
 
     props.cancelInterview(props.id)
       .then(() => transition(EMPTY))
-      .catch(() => transition(ERROR_DELETE,true));
+      .catch(() => transition(ERROR_DELETE, true));
   }
 
   return (
@@ -52,9 +52,9 @@ export default function Appointment(props) {
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === CREATE && <Form onCancel={() => back()} interviewers={props.interviewers} onSave={(name, interviewer) => save(name, interviewer)} />}
       {mode === SAVING && <Status message={"SAVING"} />}
-      {mode === EDIT &&  <Form onCancel={() => back()} interviewers={props.interviewers} onSave={(name, interviewer) => save(name, interviewer)} name={props.interview.student} interviewer={props.interview.interviewer.id}  />}
-      {mode === ERROR_DELETE && <Error onClose={()=> back()}/>}
-      {mode === ERROR_SAVE && <Error onClose={()=> back()}/>}
+      {mode === EDIT && <Form onCancel={() => back()} interviewers={props.interviewers} onSave={(name, interviewer) => save(name, interviewer)} name={props.interview.student} interviewer={props.interview.interviewer.id} />}
+      {mode === ERROR_DELETE && <Error onClose={() => back()} />}
+      {mode === ERROR_SAVE && <Error onClose={() => back()} />}
       {mode === CONFIRM_DELETE && <Confirm onConfirm={() => del()} onCancel={() => back()} message={"Are you sure you want to delete?"} />}
       {mode === DELETING && <Status message={"DELETING"} />}
     </article>

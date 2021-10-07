@@ -8,13 +8,13 @@ const InterviewerListItem = function (props) {
   const interviwerItemClass = classNames(
     "interviewers__item",
     {
-       "interviewers__item--selected": selected,
+      "interviewers__item--selected": selected,
     }
   );
   const interviewerItemImageClass = classNames(
     "interviewers__item-image",
     {
-       "interviewers__item-image--selected": selected,
+      "interviewers__item-image--selected": selected,
     }
   );
   return (

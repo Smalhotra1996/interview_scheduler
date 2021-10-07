@@ -26,11 +26,13 @@ export default function useApplicationData(initial) {
   }, []);
 
   const bookInterview = async (id, interview) => {
+    let edit = (state.appointments[id].interview);
 
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
     };
+
     const appointments = {
       ...state.appointments,
       [id]: appointment
@@ -38,14 +40,14 @@ export default function useApplicationData(initial) {
 
     const days = state.days.map(
       (day) => {
-        if(day.name === state.day){
-          day.spots = day.spots-1;
+        if (day.name === state.day && !edit) {
+          day.spots = day.spots - 1;
         }
         return day;
       }
     );
 
-console.log(days);
+    console.log(days);
     return await axios.put("/api/appointments/" + id, { interview })
       .then(() => {
         setState(
@@ -69,8 +71,8 @@ console.log(days);
     };
     const days = state.days.map(
       (day) => {
-        if(day.name === state.day){
-          day.spots = day.spots+1;
+        if (day.name === state.day) {
+          day.spots = day.spots + 1;
         }
         return day;
       }
